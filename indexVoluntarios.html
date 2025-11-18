@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Acceso — Cuidando Vidas</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;display:flex;align-items:center;justify-content:center;height:100vh;margin:0}
+    .card{background:#fff;padding:28px;border-radius:12px;box-shadow:0 8px 22px rgba(0,0,0,0.08);width:360px;text-align:center}
+    input{width:100%;padding:10px;margin-top:12px;border:1px solid #d8dbe4;border-radius:8px;box-sizing:border-box}
+    button{width:100%;padding:10px;margin-top:14px;border:none;border-radius:8px;background:#1976d2;color:#fff;font-weight:600;cursor:pointer}
+    #error{color:#c62828;margin-top:10px;display:none}
+    .small{font-size:13px;color:#666;margin-top:10px}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Acceso restringido</h2>
+    <input id="pwd" type="password" placeholder="Ingrese la contraseña" autocomplete="off" />
+    <button id="btn">Ingresar</button>
+    <div id="error">Contraseña incorrecta</div>
+    <div class="small">Si tenés problemas, contactá a los administradores.</div>
+  </div>
+
+  <script>
+    // ************** CONFIGURACIÓN: pon acá la contraseña que quieras **************
+    const PASSWORD = "miContraSegura"; // <-- cambiala
+    const SITE_URL = "https://sites.google.com/cuidandovidas.org.ar/voluntarios/home";
+    // *****************************************************************************
+
+    document.getElementById('btn').addEventListener('click', tryLogin);
+    document.getElementById('pwd').addEventListener('keydown', function(e){ if(e.key === 'Enter') tryLogin(); });
+
+    function tryLogin(){
+      document.getElementById('error').style.display = 'none';
+      const v = document.getElementById('pwd').value || '';
+      if (v === PASSWORD) {
+        // Intentamos cerrar/abrir como top: esto SIEMPRE funciona desde una página fuera de script.google.com
+        try {
+          window.top.location.href = SITE_URL;
+        } catch (e) {
+          // fallback: abrir en nueva pestaña
+          window.open(SITE_URL, '_blank');
+        }
+      } else {
+        document.getElementById('error').style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>
